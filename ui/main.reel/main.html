@@ -20,6 +20,89 @@
                 "enabled": true,
                 "identifier": "createTreeButton",
                 "label": "[100]"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "label"}
+            }
+        },
+        "button2": {
+            "prototype": "digit/ui/button.reel",
+            "properties": {
+                "element": {"#": "button2"},
+                "enabled": true,
+                "identifier": "createTreeButton",
+                "label": "[500]"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "label"}
+            }
+        },
+        "button3": {
+            "prototype": "digit/ui/button.reel",
+            "properties": {
+                "element": {"#": "button3"},
+                "enabled": true,
+                "identifier": "createTreeButton",
+                "label": "[100, 1]"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "label"}
+            }
+        },
+        "button4": {
+            "prototype": "digit/ui/button.reel",
+            "properties": {
+                "element": {"#": "button4"},
+                "enabled": true,
+                "identifier": "createTreeButton",
+                "label": "[100, 5]"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "label"}
+            }
+        },
+        "button5": {
+            "prototype": "digit/ui/button.reel",
+            "properties": {
+                "element": {"#": "button5"},
+                "enabled": true,
+                "identifier": "createTreeButton",
+                "label": "[100, 1, 1, 1, 1]"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "label"}
+            }
+        },
+        "button6": {
+            "prototype": "digit/ui/button.reel",
+            "properties": {
+                "element": {"#": "button6"},
+                "enabled": true,
+                "identifier": "createTreeButton",
+                "label": "[100, 5, 2, 1]"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "label"}
+            }
+        },
+        "button7": {
+            "prototype": "digit/ui/button.reel",
+            "properties": {
+                "element": {"#": "button7"},
+                "enabled": true,
+                "identifier": "createTreeButton",
+                "label": "Button"
+            },
+            "bindings": {
+                "detail.get('treeShape')": {"<-": "@treeShape.value"}
+            }
+        },
+        "treeShape": {
+            "prototype": "digit/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "treeShape"},
+                "placeholderValue": "Text",
+                "value": "[100]"
             }
         }
     }
@@ -28,6 +111,13 @@
 <body>
     <div data-montage-id="main" data-montage-skin="light" class="Main">
         <button data-montage-id="button"></button>
+        <button data-montage-id="button2"></button>
+        <button data-montage-id="button3"></button>
+        <button data-montage-id="button4"></button>
+        <button data-montage-id="button5"></button>
+        <button data-montage-id="button6"></button>
+        <input data-montage-id="treeShape" type="text">
+        <button data-montage-id="button7"></button>
     </div>
 </body>
 </html>
