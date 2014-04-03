@@ -36,6 +36,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
     
     runTest: {
         value: function(treeShape) {
+            console.log("runTest", treeShape);
             var rootNode = this.createDataTreeNode(treeShape);
         }
     },
