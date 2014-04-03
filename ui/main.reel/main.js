@@ -43,7 +43,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             var startTime = window.performance.now();
             new TreeController(rootNode, "children", true);
             var currentTime = window.performance.now();
-            console.log("new TreeController()", currentTime - startTime);
+            console.log("new TreeController()", rootNode, currentTime - startTime);
         }
     },
     
