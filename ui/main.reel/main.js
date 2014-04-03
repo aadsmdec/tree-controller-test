@@ -15,33 +15,34 @@ exports.Main = Component.specialize(/** @lends Main# */ {
         }
     },
     
-    createDataTree: {
-        value: function(treeShape) {
-            var treeRoot = {};
-            var children = [];
-            
-        }
-    },
-    
     createDataTreeNode: {
         value: function(shape) {
-            var childrenCount = shape[0];
+            var childrenCount = shape[0] || 0;
             var childrenShape;
-            var children;
+            var children = new Array(childrenCount);
 
             if (childrenCount) {
                 childrenShape = shape.slice(1);
-                children = new Array(childrenCount);
                 for (var i = 0; i < childrenCount; i++) {
                     children[i] = this.createDataTreeNode(childrenShape);
                 }
             }
+            
+            return {
+                children: children
+            };
         }
     },  
     
+    runTest: {
+        value: function(treeShape) {
+            var rootNode = this.createDataTreeNode(treeShape);
+        }
+    },
+    
     handleCreateTreeButtonAction: {
         value: function(event) {
-            this.createDataTree(event.detail.get("treeShape"));
+            this.runTest(event.detail.get("treeShape"));
         }
     }
 });
