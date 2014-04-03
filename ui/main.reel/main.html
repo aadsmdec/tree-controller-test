@@ -146,6 +146,13 @@
                 }
             ]
         },
+        "initiallyExpanded": {
+            "prototype": "digit/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "initiallyExpanded"},
+                "checked": true
+            }
+        },
         "treeShape": {
             "prototype": "digit/ui/text-field.reel",
             "properties": {
@@ -159,6 +166,7 @@
 </head>
 <body>
     <div data-montage-id="main" data-montage-skin="light" class="Main">
+        <input type="checkbox" data-montage-id="initiallyExpanded">
         <button data-montage-id="button"></button>
         <button data-montage-id="button2"></button>
         <button data-montage-id="button3"></button>
