@@ -36,12 +36,12 @@ exports.Main = Component.specialize(/** @lends Main# */ {
     },  
     
     runTest: {
-        value: function(treeShape) {
+        value: function(treeShape, initiallyExpanded) {
             console.log("runTest", treeShape);
             var rootNode = this.createDataTreeNode(treeShape);
 
             var startTime = window.performance.now();
-            new TreeController(rootNode, "children", true);
+            new TreeController(rootNode, "children", initiallyExpanded);
             var currentTime = window.performance.now();
             console.log("new TreeController()", rootNode, currentTime - startTime);
         }
@@ -49,7 +49,8 @@ exports.Main = Component.specialize(/** @lends Main# */ {
     
     handleCreateTreeButtonAction: {
         value: function(event) {
-            this.runTest(event.detail.get("treeShape"));
+            this.runTest(event.detail.get("treeShape"),
+                         this.templateObjects.initiallyExpanded.checked);
         }
     }
 });
