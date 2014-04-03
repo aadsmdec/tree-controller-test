@@ -39,7 +39,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
         value: function(treeShape) {
             console.log("runTest", treeShape);
             var rootNode = this.createDataTreeNode(treeShape);
-            
+            console.log(rootNode);
             var startTime = window.performance.now();
             new TreeController(rootNode, "children", false);
             var currentTime = window.performance.now();
