@@ -3,6 +3,7 @@
  * @requires montage/ui/component
  */
 var Component = require("montage/ui/component").Component;
+var TreeController = require("montage/core/tree-controller").TreeController;
 
 /**
  * @class Main
@@ -38,6 +39,8 @@ exports.Main = Component.specialize(/** @lends Main# */ {
         value: function(treeShape) {
             console.log("runTest", treeShape);
             var rootNode = this.createDataTreeNode(treeShape);
+            
+            new TreeController(rootNode, "children", false);
         }
     },
     
