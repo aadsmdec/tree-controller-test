@@ -40,7 +40,10 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             console.log("runTest", treeShape);
             var rootNode = this.createDataTreeNode(treeShape);
             
+            var startTime = window.performance.now();
             new TreeController(rootNode, "children", false);
+            var currentTime = window.performance.now();
+            console.log("new TreeController()", currentTime - startTime);
         }
     },
     
