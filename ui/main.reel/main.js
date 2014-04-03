@@ -49,7 +49,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
     
     handleCreateTreeButtonAction: {
         value: function(event) {
-            this.runTest(event.detail.get("treeShape"),
+            this.runTest(JSON.parse(event.detail.get("treeShape")),
                          this.templateObjects.initiallyExpanded.checked);
         }
     }
