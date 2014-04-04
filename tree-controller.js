@@ -22,7 +22,7 @@ exports.TreeNodeController = Montage.specialize({
             this.children = [];
             
             this._childrenContent.map(function(content) {
-                return new this(controller, this, content, depth + 1);
+                return new this.constructor(controller, this, content, depth + 1);
             }, this);
         }
     }
