@@ -27,7 +27,7 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
                 value.expanded = !value.expanded;
                 setTimeout(function() {
                     self.templateObjects.rangeController.selection.clear();
-                } 0);
+                }, 0);
             }
         }
     }
