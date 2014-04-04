@@ -200,17 +200,10 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
 
             this.super();
 
-            this.content = content;
             this.childrenPath = childrenPath;
             this.expandedPath = expandedPath;
             this.initiallyExpanded = initiallyExpanded;
-            this.root = new this.NodeController(this, null, content, 0);
-
-            iterations = [this.root];
-            if (this.root.expanded) {
-                iterations.swap(1, 0, this.root.iterations);
-            }
-            this.iterations = iterations;
+            this.content = content;
         }
     },
 
@@ -226,6 +219,32 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         value: null
     },
 
+    _content: {
+        value: null
+    },
+    
+    content: {
+        get: function() {
+            return this._content;
+        },
+        set: function(value) {
+            if (value !== this._content) {
+                if (value) {
+                    this.root = new this.NodeController(this, null, value, 0);
+
+                    var iterations = [this.root];
+                    if (this.root.expanded) {
+                        iterations.swap(1, 0, this.root.iterations);
+                    }
+                    this.iterations = iterations;                    
+                } else {
+                    this.root = null;
+                    this.iterations = [];
+                }
+            }
+        }
+    },
+    
     NodeController: {
         value: exports.TreeNodeController
     }
