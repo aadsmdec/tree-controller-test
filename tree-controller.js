@@ -30,7 +30,7 @@ exports.TreeNodeController = Montage.specialize({
                 var child = new this.constructor(
                     controller, this, content, depth + 1,
                     controller.iterations.length);
-                iterations = child.iterations.concat(iterations);
+                iterations = iterations.concat(child.iterations);
                 return child;
             }, this);
             
