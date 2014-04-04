@@ -11,11 +11,12 @@ exports.TreeNodeController = Montage.specialize({
             this.parent = parent;
             this.content = content;
             this.depth = depth;
+            this.iterations = iterations = [];
             
             if (controller.expandedPath && content[controller.expandedPath] !== undefined) {
-                this.expanded = content[controller.expandedPath];
+                this._expanded = content[controller.expandedPath];
             } else {
-                this.expanded = controller.initiallyExpanded || false;
+                this._expanded = controller.initiallyExpanded || false;
             }
             
             this._childrenContent = this.getPath("content." + (controller.childrenPath||"children"));
@@ -41,7 +42,24 @@ exports.TreeNodeController = Montage.specialize({
         },
         set: function(value) {
             if (value !== this._expanded) {
-                this._expanded = value;
+                this._expanded = value;                
+            }
+        }
+    },
+    
+    _findIterationsIndex: {
+        value: function() {
+            var node = this;
+            var iterationsIndex = 0;
+            
+            while (node.expanded && node.parent) {
+                iterationsIndex += node.parent.children.indexOf(node) + 1;
+                node = node.parent;
+            }
+            if (node.parent) {
+                return iterationsIndex;
+            } else {
+                return -1;
             }
         }
     }
