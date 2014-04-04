@@ -122,6 +122,7 @@ exports.TreeNodeController = Montage.specialize({
     
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
+            console.log("change");
         }
     }
 });
