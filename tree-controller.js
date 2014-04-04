@@ -48,7 +48,7 @@ exports.TreeNodeController = Montage.specialize({
         },
         set: function(value) {
             if (value !== this._expanded) {
-                this._expanded = value;
+                //this._expanded = value;
                 var iterationsIndex = this._findIterationsIndex();
                 console.log("iterationsIndex", iterationsIndex);
             }
@@ -66,9 +66,9 @@ exports.TreeNodeController = Montage.specialize({
             }
             
             if (node.parent) {
-                return iterationsIndex;
-            } else {
                 return -1;
+            } else {
+                return iterationsIndex;
             }
         }
     }
