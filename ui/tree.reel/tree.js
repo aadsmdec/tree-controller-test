@@ -24,6 +24,7 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
         value: function(value) {
             if (value) {
                 value.expanded = !value.expanded;
+                this.templateObjects.rangeController.selection.clear();
             }
         }
     }
