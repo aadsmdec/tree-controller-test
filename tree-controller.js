@@ -13,20 +13,21 @@ exports.TreeNodeController = Montage.specialize({
             this.parent = parent;
             this.content = content;
             this.depth = depth;
-            
             if (controller.expandedPath && content[controller.expandedPath] !== undefined) {
                 this._expanded = content[controller.expandedPath];
             } else {
                 this._expanded = controller.initiallyExpanded || false;
             }
             
-            this._childrenContent = this.getPath("content." + (controller.childrenPath||"children"));
-            
             if (this.expanded) {
                 controller.iterations.splice(iterationsIndex, 0, this);
             }
             
-            this.children = this._childrenContent.map(function(content) {
+            var childrenPath = "content." + (controller.childrenPath||"children";
+            var childrenContent = this.getPath(childrenPath));
+            this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
+            
+            this.children = childrenContent.map(function(content) {
                 var child = new this.constructor(
                     controller, this, content, depth + 1,
                     controller.iterations.length);
@@ -87,19 +88,13 @@ exports.TreeNodeController = Montage.specialize({
 
             while (node.parent && node.parent.expanded) {
                 iterationsIndex = node.parent.iterations.indexOf(this);
-                var startTime = window.performance.now();
                 node.parent.iterations.splice(iterationsIndex + 1, iterationsCount);
-                var currentTime = window.performance.now();
-                console.log("node", currentTime - startTime);
                 node = node.parent;
             }
             
             if (!node.parent) {
-                var startTime = window.performance.now();
                 iterationsIndex = this._controller.iterations.indexOf(this);
                 this._controller.iterations.splice(iterationsIndex + 1, iterationsCount);
-                var currentTime = window.performance.now();
-                console.log("controller", currentTime - startTime);
             }
         }
     },
@@ -122,6 +117,11 @@ exports.TreeNodeController = Montage.specialize({
                 iterationsIndex = iterations.indexOf(this);
                 iterations.swap(iterationsIndex + 1, 0, this.iterations);
             }
+        }
+    },
+    
+    handleChildrenContentChange: {
+        value: function(plus, minus, index) {
         }
     }
 });
