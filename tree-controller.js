@@ -263,6 +263,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                     this.root = null;
                     this.iterations = null;
                 }
+                this._content = value;
             }
         }
     },
