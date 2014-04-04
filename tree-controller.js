@@ -83,6 +83,22 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
 
+    _createChildren: {
+        value: function(childrenContent, iterations) {
+            return childrenContent.map(function(childContent) {
+                var child = new this.constructor(this._controller, this, childContent,
+                                                 this.depth + 1);
+
+                iterations.push(child);
+                if (child.expanded) {
+                    iterations.swap(iterations.length, 0, child.iterations);
+                }
+
+                return child;
+            }, this);
+        }
+    },
+    
     _collapse: {
         value: function() {
             this._removeIterationsFromParent(this.iterations.length, this);            
@@ -147,24 +163,28 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
 
-    _createChildren: {
-        value: function(childrenContent, iterations) {
-            return childrenContent.map(function(childContent) {
-                var child = new this.constructor(this._controller, this, childContent,
-                                                 this.depth + 1);
-
-                iterations.push(child);
-                if (child.expanded) {
-                    iterations.swap(iterations.length, 0, child.iterations);
-                }
-                
-                return child;
-            }, this);
-        }
-    },
-    
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
+            if (minus.length > 0) {
+                var iterations = this.iterations;
+                var child = this.children[index];
+                var iterationsIndex = iterations.indexOf(child);
+                var nextChild = this.children[index + minus.length];
+                var nextIterationsIndex = iterations.indexOf(nextChild);
+                
+                if (iterationsIndex < 0) {
+                    iterationsIndex = 0;
+                }
+                if (nextIterationsIndex < 0) {
+                    nextIterationsIndex = iterations.length;
+                }
+                
+                var iterationsCount = nextIterationsIndex - iterationsIndex;
+                this.children.splice(index, minus.length);
+                iterations.splice(iterationsIndex, iterationsCount);
+                this._removeIterationsFromParent(iterationsCount, iterations[iterationsIndex - 1]);
+            }
+            
             if (plus.length > 0) {
                 var iterations = this.iterations;
                 var nextChild = this.children[index];
@@ -183,7 +203,6 @@ exports.TreeNodeController = Montage.specialize({
                 this.iterations.swap(iterationsIndex, 0, newIterations);
                 this._addIterationsToParent(newIterations, iterations[iterationsIndex-1]);
             }
-            //console.log("change", plus, minus, index);
         }
     }
 });
