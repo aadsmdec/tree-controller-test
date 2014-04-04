@@ -64,7 +64,7 @@ exports.TreeNodeController = Montage.specialize({
             var iterationsIndex = 0;
             
             while (node.parent && node.parent.expanded) {
-                iterationsIndex += node.parent.children.indexOf(node) + 1;
+                iterationsIndex += node.parent.iterations.indexOf(node) + 1;
                 node = node.parent;
             }
             
