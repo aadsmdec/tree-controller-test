@@ -63,19 +63,19 @@ exports.Main = Component.specialize(/** @lends Main# */ {
                 Controller = TreeController;
             }
 
-            startTime = window.performance.now();
-            
-            treeController = new Controller(rootNode, "children", initiallyExpanded);
-            
-            currentTime = window.performance.now();
-            console.log("new TreeController()", rootNode, currentTime - startTime);
-            startTime = currentTime;
-            
             if (this.templateObjects.addToController.checked) {
                 this._addToController(this.templateObjects.tree.treeController,
                                       rootNode,
                                       JSON.parse(this.templateObjects.referenceNode.value));
             } else {
+                startTime = window.performance.now();
+
+                treeController = new Controller(rootNode, "children", initiallyExpanded);
+
+                currentTime = window.performance.now();
+                console.log("new TreeController()", rootNode, currentTime - startTime);
+                startTime = currentTime;
+
                 this.templateObjects.tree.treeController = treeController;
             }
             
