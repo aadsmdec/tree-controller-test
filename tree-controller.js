@@ -30,7 +30,8 @@ exports.TreeNodeController = Montage.specialize({
 
                 iterations.push(child);
                 if (child.expanded) {
-                    iterations = iterations.concat(child.iterations);
+                    iterations.swap(iterations.length, 0, child.iterations);
+                    //iterations = iterations.concat(child.iterations);
                 }
                 return child;
             }, this);
