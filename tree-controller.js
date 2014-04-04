@@ -11,9 +11,19 @@ exports.TreeNodeController = Montage.specialize({
             this.parent = parent;
             this.content = content;
             this.depth = depth;
-            this.expanded = controller.initiallyExpanded || false;
             
+            if (controller.expandedPath && content[controller.expandedPath] !== undefined) {
+                this.expanded = content[controller.expandedPath];
+            } else {
+                this.expanded = controller.initiallyExpanded || false;
+            }
             
+            this._childrenContent = this.getPath("content." + (controller.childrenPath||"children"));
+            this.children = [];
+            
+            this._childrenContent.map(function(content) {
+                return new this(controller, this, content, depth + 1);
+            }, this);
         }
     }
 });
