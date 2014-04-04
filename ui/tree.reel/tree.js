@@ -22,7 +22,9 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
     
     handleSelectionChange: {
         value: function(value) {
-            console.log(value);
+            if (value) {
+                value.expanded = !value.expanded;
+            }
         }
     }
 });
