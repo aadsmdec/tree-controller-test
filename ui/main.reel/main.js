@@ -71,10 +71,30 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             console.log("new TreeController()", rootNode, currentTime - startTime);
             startTime = currentTime;
             
-            this.templateObjects.tree.treeController = treeController;
+            if (this.templateObjects.addToController.checked) {
+                this._addToController(this.templateObjects.tree.treeController,
+                                      rootNode,
+                                      JSON.parse(this.templateObjects.referenceNode.value);
+            } else {
+                this.templateObjects.tree.treeController = treeController;
+            }
             
             currentTime = window.performance.now();
             console.log("tree.treeController", currentTime - startTime);
+        }
+    },
+    
+    _addToController: {
+        value: function(controller, node, where) {
+            var content = controller.content,
+                node = content;
+            
+            while (where.length > 1) {
+                var ix = where.shift();
+                node = node.children[ix];
+            }
+            
+            node.children.splice(where[0], 0, node);
         }
     },
     
