@@ -20,6 +20,16 @@
                 "checked": false
             }
         },
+        "allExpanded": {
+            "prototype": "digit/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "allExpanded"},
+                "checked": true
+            },
+            "bindings": {
+                "checked": {"<->": "@tree.treeController.allExpanded"}
+            }
+        },
         "button": {
             "prototype": "digit/ui/button.reel",
             "properties": {
@@ -160,6 +170,16 @@
                 "checked": true
             }
         },
+        "noneExpanded": {
+            "prototype": "digit/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "noneExpanded"},
+                "checked": true
+            },
+            "bindings": {
+                "checked": {"<->": "@tree.treeController.noneExpanded"}
+            }
+        },
         "referenceNode": {
             "prototype": "digit/ui/text-field.reel",
             "properties": {
@@ -221,6 +241,10 @@
             <button data-montage-id="button7"></button>
             |
             <input data-montage-id="referenceNode" type="text">
+        </div>
+        <div>
+            <input type="checkbox" data-montage-id="allExpanded">
+            <input type="checkbox" data-montage-id="noneExpanded">
         </div>
         <div>
             <div data-montage-id="tree"></div>
