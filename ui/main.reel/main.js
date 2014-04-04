@@ -38,15 +38,20 @@ exports.Main = Component.specialize(/** @lends Main# */ {
     runTest: {
         value: function(treeShape, initiallyExpanded) {
             console.log("runTest", treeShape);
+            var startTime, currentTime;
             var rootNode = this.createDataTreeNode(treeShape);
 
-            var startTime = window.performance.now();
+            startTime = window.performance.now();
+            
             treeController = new TreeController(rootNode, "children", initiallyExpanded);
-            var currentTime = window.performance.now();
+            
+            currentTime = window.performance.now();
             console.log("new TreeController()", rootNode, currentTime - startTime);
             startTime = currentTime;
+            
             this.templateObjects.tree.treeController = treeController;
-            var currentTime = window.performance.now();
+            
+            currentTime = window.performance.now();
             console.log("tree.treeController", currentTime - startTime);
         }
     },
