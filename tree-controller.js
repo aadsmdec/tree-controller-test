@@ -207,6 +207,8 @@ exports.TreeNodeController = Montage.specialize({
                 this.iterations.swap(iterationsIndex, 0, newIterations);
                 this._addIterationsToParent(newIterations, iterations[iterationsIndex-1] || this);
             }
+            
+            this._controller.handleIterationsChange();
         }
     }
 });
@@ -243,10 +245,6 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         value: 0
     },
     
-    _expandedNodeCount: {
-        value: 0
-    },
-    
     _content: {
         value: null
     },
@@ -266,10 +264,13 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                     }
                     this.iterations = iterations;                    
                 } else {
+                    this.root.destroy();
                     this.root = null;
                     this.iterations = null;
+                    this._nodeCount = 0;
                 }
                 this._content = value;
+                this._controller.handleIterationsChange();
             }
         }
     },
