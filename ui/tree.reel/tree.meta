@@ -21,6 +21,9 @@
     "prototype": "montage/core/meta/module-blueprint",
     "properties": {
       "name": null,
+      "blueprintModule": {
+        "%": "ui/tree.reel/tree.meta"
+      },
       "parent": {"@": "blueprint_component_reference"},
       "propertyBlueprints": [
         {"@": "blueprint_unnamed_treeController"}
