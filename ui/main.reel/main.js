@@ -30,10 +30,24 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             }
             
             return {
+                name: this.generateName();
                 children: children
             };
         }
     },  
+    
+    generateName: {
+        value: function() {
+            var name = "";
+            
+            for (var i = 0; i < 5; i++) {
+                // 97 - char code for "a"
+                name += String.fromCharCode(Math.random()*25 + 97);
+            }
+            
+            return name;
+        }
+    },
     
     runTest: {
         value: function(treeShape, initiallyExpanded) {
