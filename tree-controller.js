@@ -243,6 +243,10 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         value: 0
     },
     
+    _expandedNodeCount: {
+        value: 0
+    },
+    
     _content: {
         value: null
     },
