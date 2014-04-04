@@ -208,7 +208,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
 
             iterations = [this.root];
             if (this.root.expanded) {
-                iterations.swap(0, 0, this.root.iterations);
+                iterations.swap(1, 0, this.root.iterations);
             }
             this.iterations = iterations;
         }
