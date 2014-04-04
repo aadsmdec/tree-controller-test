@@ -4,7 +4,7 @@
  */
 var Component = require("montage/ui/component").Component;
 var TreeController = require("montage/core/tree-controller").TreeController;
-var NewTreeController = require("./tree-controller").TreeController;
+var NewTreeController = require("tree-controller").TreeController;
 
 /**
  * @class Main
