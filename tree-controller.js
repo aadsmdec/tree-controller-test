@@ -176,7 +176,7 @@ exports.TreeNodeController = Montage.specialize({
                 iterationsCount = nextIterationsIndex - iterationsIndex;
                 this.children.splice(index, minus.length);
                 iterations.splice(iterationsIndex, iterationsCount);
-                this._removeIterationsFromParent(iterationsCount, iterations[iterationsIndex - 1]);
+                this._removeIterationsFromParent(iterationsCount, iterations[iterationsIndex - 1] || this);
             }
             
             if (plus.length > 0) {
@@ -192,7 +192,7 @@ exports.TreeNodeController = Montage.specialize({
                     iterationsIndex = iterations.length;
                 }
                 this.iterations.swap(iterationsIndex, 0, newIterations);
-                this._addIterationsToParent(newIterations, iterations[iterationsIndex-1]);
+                this._addIterationsToParent(newIterations, iterations[iterationsIndex-1] || this);
             }
         }
     }
