@@ -6,7 +6,7 @@ var Montage = require("montage/core/core").Montage;
 
 exports.TreeNodeController = Montage.specialize({
     constructor: {
-        value: function(controller, parent, content, depth, iterationsIndex) {
+        value: function(controller, parent, content, depth) {
             var iterations = [],
                 childrenPath,
                 childrenContent;
@@ -20,18 +20,13 @@ exports.TreeNodeController = Montage.specialize({
                 this._expanded = controller.initiallyExpanded || false;
             }
             
-            if (this.expanded) {
-                //controller.iterations.splice(iterationsIndex, 0, this);
-            }
-            
             childrenPath = "content." + (controller.childrenPath||"children");
             this.content = content;
-            //this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
+            this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
             childrenContent = this.getPath(childrenPath);
             
             this.children = childrenContent.map(function(content) {
-                var child = new this.constructor(
-                    controller, this, content, depth + 1);
+                var child = new this.constructor(controller, this, content, depth + 1);
                 
                 iterations.push(child);
                 if (child.expanded) {
