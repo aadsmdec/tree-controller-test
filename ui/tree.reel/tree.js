@@ -13,5 +13,9 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
         value: function Tree() {
             this.super();
         }
+    },
+    
+    treeController: {
+        value: null
     }
 });
