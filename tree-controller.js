@@ -26,6 +26,7 @@ exports.TreeNodeController = Montage.specialize({
             
             childrenPath = "content." + (controller.childrenPath||"children");
             this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
+            console.log("CONTENT");
             this.content = content;
             childrenContent = this.getPath(childrenPath);
             
