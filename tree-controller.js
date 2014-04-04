@@ -147,7 +147,7 @@ exports.TreeNodeController = Montage.specialize({
                 if (this.parent.parent) {
                     this.parent._addIterationsToParent(iterations, parentIterations[parentIterationsIndex-1]);
                 } else {
-                    parentIterationsIndex = this._controller.iterations.indexOf(previousIteration);
+                    parentIterationsIndex = this._controller.iterations.indexOf(previousIteration) + 1;
                     this._controller.iterations.swap(parentIterationsIndex, 0, iterations);
                 }
             }
