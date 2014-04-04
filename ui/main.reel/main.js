@@ -57,7 +57,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             var rootNode = this.createDataTreeNode(treeShape);
             var Controller;
             
-            if (this.templateObjects.useNewTreeController.checked) {
+            if (this.templateObjects.useNewController.checked) {
                 Controller = NewTreeController;
             } else {
                 Controller = TreeController;
