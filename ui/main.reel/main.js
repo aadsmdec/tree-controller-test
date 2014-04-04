@@ -63,13 +63,13 @@ exports.Main = Component.specialize(/** @lends Main# */ {
                 Controller = TreeController;
             }
 
+            startTime = window.performance.now();
+            
             if (this.templateObjects.addToController.checked) {
                 this._addToController(this.templateObjects.tree.treeController,
                                       rootNode,
                                       JSON.parse(this.templateObjects.referenceNode.value));
             } else {
-                startTime = window.performance.now();
-
                 treeController = new Controller(rootNode, "children", initiallyExpanded);
 
                 currentTime = window.performance.now();
