@@ -87,14 +87,13 @@ exports.Main = Component.specialize(/** @lends Main# */ {
     _addToController: {
         value: function(controller, node, where) {
             var content = controller.content,
-                node = content;
+                parentNode = content;
             
             while (where.length > 1) {
                 var ix = where.shift();
-                node = node.children[ix];
+                parentNode = parentNode.children[ix];
             }
-            console.log(controller, controller.content);
-            node.children.splice(where[0], 0, node);
+            parentNode.children.splice(where[0], 0, node);
         }
     },
     
