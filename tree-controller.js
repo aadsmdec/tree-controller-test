@@ -25,17 +25,7 @@ exports.TreeNodeController = Montage.specialize({
             this._content = content;
             childrenContent = this.getPath(childrenPath);
 
-            this.children = childrenContent.map(function(content) {
-                var child = new this.constructor(controller, this, content, depth + 1);
-
-                iterations.push(child);
-                if (child.expanded) {
-                    iterations.swap(iterations.length, 0, child.iterations);
-                    //iterations = iterations.concat(child.iterations);
-                }
-                return child;
-            }, this);
-
+            this.children = this._createChildren(content, iterations);
             this.iterations = iterations;
         }
     },
@@ -157,16 +147,17 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
 
-    _createChildrenNodes: {
+    _createChildren: {
         value: function(childrenContent, iterations) {
-            return childrenContent.forEach(function(childContent) {
+            return childrenContent.map(function(childContent) {
                 var child = new this.constructor(this._controller, this, childContent,
                                                  this.depth + 1);
 
                 iterations.push(child);
                 if (child.expanded) {
-                    iterations = iterations.concat(child.iterations);
+                    iterations.swap(iterations.length, 0, child.iterations);
                 }
+                
                 return child;
             }, this);
         }
@@ -181,7 +172,7 @@ exports.TreeNodeController = Montage.specialize({
                 var newChildren;                
                 var newIterations = [];
                 
-                newChildren = this._createChildrenNodes(plus, newIterations);
+                newChildren = this._createChildren(plus, newIterations);
                 this.children.swap(index, 0, newChildren);
                 
                 if (nextChild) {
