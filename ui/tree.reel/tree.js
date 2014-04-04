@@ -23,8 +23,11 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
     handleSelectionChange: {
         value: function(value) {
             if (value) {
+                var self = this;
                 value.expanded = !value.expanded;
-                this.templateObjects.rangeController.selection.clear();
+                setTimeout(function() {
+                    self.templateObjects.rangeController.selection.clear();
+                } 0);
             }
         }
     }
