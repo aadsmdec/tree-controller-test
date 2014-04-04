@@ -257,6 +257,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             if (value !== this._content) {
                 if (value) {
                     this.root = new this.NodeController(this, null, value, 0);
+                    this._nodeCount++;
 
                     var iterations = [this.root];
                     if (this.root.expanded) {
@@ -270,7 +271,19 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                     this._nodeCount = 0;
                 }
                 this._content = value;
-                this._controller.handleIterationsChange();
+                this.handleIterationsChange();
+            }
+        }
+    },
+    
+    handleIterationsChange: {
+        value: function() {
+            if (this.iterations) {
+                if (this.iterations.length === this._nodeCount) {
+                    this.allExpanded = true;
+                } else {
+                    this.allExpanded = false;
+                }
             }
         }
     },
