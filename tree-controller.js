@@ -53,6 +53,7 @@ exports.TreeNodeController = Montage.specialize({
                 var startTime = window.performance.now();
                 //var iterationsIndex = this._findIterationsIndex();
                 if (value) {
+                    this._expand();
                 } else {
                     this._collapse();
                 }
@@ -99,7 +100,7 @@ exports.TreeNodeController = Montage.specialize({
             if (!node.parent) {
                 var startTime = window.performance.now();
                 iterationsIndex = this._controller.iterations.indexOf(this);
-                this._controller.iterations.splice(iterationsIndex + 1, iterationsCount);
+                this._controller.iterations.swap(iterationsIndex + 1, iterationsCount);
                 var currentTime = window.performance.now();
                 console.log("controller", currentTime - startTime);
             }
