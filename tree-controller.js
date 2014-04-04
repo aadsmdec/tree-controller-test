@@ -134,15 +134,17 @@ exports.TreeNodeController = Montage.specialize({
 
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
-            var newChildren = plus.forEach(function(childContent) {
-                var child = new this.constructor(controller, this, content, depth + 1);
+            if (plus.length > 0) {
+                var newChildren = plus.forEach(function(childContent) {
+                    var child = new this.constructor(controller, this, content, depth + 1);
 
-                iterations.push(child);
-                if (child.expanded) {
-                    iterations = iterations.concat(child.iterations);
-                }
-                return child;
-            }, this);
+                    iterations.push(child);
+                    if (child.expanded) {
+                        iterations = iterations.concat(child.iterations);
+                    }
+                    return child;
+                }, this);
+            }
             //console.log("change", plus, minus, index);
         }
     }
@@ -163,7 +165,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             this.expandedPath = expandedPath;
             this.initiallyExpanded = initiallyExpanded;
             this.root = new this.NodeController(this, null, content, 0);
-            
+
             iterations = this.root.iterations.slice(0);
             iterations.unshift(this.root);
             this.iterations = iterations;
