@@ -24,7 +24,10 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
         value: function(value) {
             if (value) {
                 var self = this;
+                var startTime = window.performance.now();
                 value.expanded = !value.expanded;
+                var currentTime = window.performance.now();
+                console.log("expanded", currentTime - startTime);
                 setTimeout(function() {
                     self.templateObjects.rangeController.selection.clear();
                 }, 0);
