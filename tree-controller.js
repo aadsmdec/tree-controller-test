@@ -20,7 +20,7 @@ exports.TreeNodeController = Montage.specialize({
             
             this._childrenContent = this.getPath("content." + (controller.childrenPath||"children"));
             
-            if (this.expanded) {
+            if (this.depth && this.expanded) {
                 controller.iterations.splice(iterationsIndex, 0, this);
             }
             
@@ -28,6 +28,21 @@ exports.TreeNodeController = Montage.specialize({
                 return new this.constructor(controller, this, content, depth + 1,
                                             controller.iterations.length);
             }, this);
+        }
+    },
+    
+    _expanded: {
+        value: false
+    },
+    
+    expanded: {
+        get: function() {
+            return this._expanded;
+        },
+        set: function(value) {
+            if (value !== this._expanded) {
+                this._expanded = value;
+            }
         }
     }
 });
