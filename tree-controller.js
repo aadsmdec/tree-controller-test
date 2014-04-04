@@ -156,35 +156,40 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
 
+    _createChildrenNodes: {
+        value: function(childrenContent, iterations) {
+            return childrenContent.forEach(function(childContent) {
+                var child = new this.constructor(this._controller, this, childContent,
+                                                 this.depth + 1);
+
+                iterations.push(child);
+                if (child.expanded) {
+                    iterations = iterations.concat(child.iterations);
+                }
+                return child;
+            }, this);
+        }
+    },
+    
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
             if (plus.length > 0) {
                 var iterations = this.iterations;
                 var nextChild = this.children[index];
                 var iterationsIndex;
-                var newChildren;
+                var newChildren;                
+                var newIterations = [];
+                
+                newChildren = this._createChildrenNodes(plus, newIterations);
+                this.children.swap(index, 0, newChildren);
                 
                 if (nextChild) {
                     iterationsIndex = iterations.indexOf(nextChild);
                 } else {
                     iterationsIndex = iterations.length;
                 }
-                
-                newChildren = plus.forEach(function(childContent) {
-                    var child = new this.constructor(this._controller, this, childContent,
-                                                     this.depth + 1);
-
-                    iterations.splice(iterationsIndex, 0, child);
-                    iterationsIndex++;
-                    if (child.expanded) {
-                        iterations.swap(iterationsIndex, 0, child.iterations);
-                        iterationsIndex += child.iterations.length;
-                    }
-                    return child;
-                }, this);
-                this.children.swap(index, 0, newChildren);
-                
-                // TODO: fix parent's iterations
+                this.iterations.swap(iterationsIndex, 0, newIterations);
+                this._addIterationsToParent(newIterations, iterations[iterationsIndex-1]);
             }
             //console.log("change", plus, minus, index);
         }
