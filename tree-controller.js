@@ -25,7 +25,7 @@ exports.TreeNodeController = Montage.specialize({
             this._content = content;
             childrenContent = this.getPath(childrenPath);
 
-            this.children = this._createChildren(content, iterations);
+            this.children = this._createChildren(childrenContent, iterations);
             this.iterations = iterations;
         }
     },
