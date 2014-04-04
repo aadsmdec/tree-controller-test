@@ -53,6 +53,7 @@ exports.TreeNodeController = Montage.specialize({
                 } else {
                     this._collapse();
                 }
+                this._controller.handleIterationsChange();
             }
         }
     },
