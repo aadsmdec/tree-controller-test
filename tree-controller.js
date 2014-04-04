@@ -203,6 +203,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
 
             this.super();
 
+            this.content = content;
             this.childrenPath = childrenPath;
             this.expandedPath = expandedPath;
             this.initiallyExpanded = initiallyExpanded;
