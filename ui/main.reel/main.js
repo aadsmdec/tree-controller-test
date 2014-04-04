@@ -93,6 +93,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
                 var ix = where.shift();
                 parentNode = parentNode.children[ix];
             }
+            console.log("parentNode: ", parentNode);
             parentNode.children.splice(where[0], 0, node);
         }
     },
