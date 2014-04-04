@@ -23,7 +23,8 @@ exports.TreeNodeController = Montage.specialize({
             childrenPath = "content." + (controller.childrenPath||"children");
             this.content = content;
             this._ignoreChildrenContentChange = true;
-            this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
+            this._cancelChildrenContentChangeListener = this.addRangeAtPathChangeListener(
+                childrenPath, this, "handleChildrenContentChange");
             this._ignoreChildrenContentChange = false;
             childrenContent = this.getPath(childrenPath);
 
@@ -59,6 +60,7 @@ exports.TreeNodeController = Montage.specialize({
     _createChildren: {
         value: function(childrenContent, iterations) {
             return childrenContent.map(function(childContent) {
+                this._controller._nodeCount++;
                 var child = new this.constructor(this._controller, this, childContent,
                                                  this.depth + 1);
 
@@ -69,6 +71,21 @@ exports.TreeNodeController = Montage.specialize({
 
                 return child;
             }, this);
+        }
+    },
+    
+    _destroy: {
+        value: function() {
+            this._controller._nodeCount--;
+            this._controller = null;
+            this.parent = null;
+            this._cancelChildrenContentChangeListener();
+            this.content = null;
+
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i]._destroy();
+            }
+            this.children = null;
         }
     },
     
@@ -168,6 +185,9 @@ exports.TreeNodeController = Montage.specialize({
                 this.children.splice(index, minus.length);
                 iterations.splice(iterationsIndex, iterationsCount);
                 this._removeIterationsFromParent(iterationsCount, iterations[iterationsIndex - 1] || this);
+                for (var i = 0; i < minus.length; i++) {
+                    minus[i]._destroy();
+                }
             }
             
             if (plus.length > 0) {
@@ -217,6 +237,10 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         value: null
     },
 
+    _nodeCount: {
+        value: 0
+    },
+    
     _content: {
         value: null
     },
