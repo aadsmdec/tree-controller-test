@@ -127,27 +127,27 @@ exports.TreeNodeController = Montage.specialize({
                 parentIterationsIndex = parentIterations.indexOf(previousIteration) + 1;
                 parentIterations.swap(parentIterationsIndex, 0, iterations);
                 if (this.parent.parent) {
-                    this.parent._addIterationsToParent(iterations, parentIterations[parentIterationsIndex-1]);
+                    this.parent._addIterationsToParent(iterations, previousIteration);
                 } else {
-                    this._addIterationsToController(iterations, parentIterations[parentIterationsIndex-1]);
+                    this._addIterationsToController(iterations, previousIteration);
                 }
             }
         }
     },
     
     _removeIterationsFromParent: {
-        value: function(iterationCount, previousIteration) {
+        value: function(iterationsCount, previousIteration) {
             var parentIterations,
                 parentIterationsIndex;
 
             if (this.parent.expanded) {
                 parentIterations = this.parent.iterations;
                 parentIterationsIndex = parentIterations.indexOf(previousIteration) + 1;
-                parentIterations.splice(parentIterationsIndex, iterationCount);
+                parentIterations.splice(parentIterationsIndex, iterationsCount);
                 if (this.parent.parent) {
-                    this.parent._removeIterationsFromParent(iterations, parentIterations[parentIterationsIndex-1]);
+                    this.parent._removeIterationsFromParent(iterations, previousIteration);
                 } else {
-                    this._addIterationsToController(iterations, parentIterations[parentIterationsIndex-1]);
+                    this._removeIterationsFromController(iterations, previousIteration);
                 }
             }
         }
@@ -160,6 +160,16 @@ exports.TreeNodeController = Montage.specialize({
             
             parentIterationsIndex = controllerIterations.indexOf(previousIteration) + 1;
             controllerIterations.swap(parentIterationsIndex, 0, iterations);
+        }
+    },
+    
+    _removeIterationsFromController: {
+        value: function(iterationsCount, previousIteration) {
+            var controllerIterations = this._controller.iterations,
+                parentIterationsIndex;
+
+            parentIterationsIndex = controllerIterations.indexOf(previousIteration) + 1;
+            controllerIterations.splice(parentIterationsIndex, iterationsCount);
         }
     },
 
