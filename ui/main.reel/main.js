@@ -74,7 +74,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             if (this.templateObjects.addToController.checked) {
                 this._addToController(this.templateObjects.tree.treeController,
                                       rootNode,
-                                      JSON.parse(this.templateObjects.referenceNode.value);
+                                      JSON.parse(this.templateObjects.referenceNode.value));
             } else {
                 this.templateObjects.tree.treeController = treeController;
             }
