@@ -9,7 +9,7 @@ var Montage = require("montage/core/core").Montage;
  */
 exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
     constructor: {
-        value: function TreeController() {
+        value: function TreeController(content, childrenPath, initiallyExpanded) {
             this.super();
         }
     }
