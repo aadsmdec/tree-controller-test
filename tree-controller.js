@@ -100,7 +100,7 @@ exports.TreeNodeController = Montage.specialize({
             if (!node.parent) {
                 var startTime = window.performance.now();
                 iterationsIndex = this._controller.iterations.indexOf(this);
-                this._controller.iterations.swap(iterationsIndex + 1, iterationsCount);
+                this._controller.iterations.splice(iterationsIndex + 1, iterationsCount);
                 var currentTime = window.performance.now();
                 console.log("controller", currentTime - startTime);
             }
@@ -116,7 +116,7 @@ exports.TreeNodeController = Montage.specialize({
             while (node.parent && node.parent.expanded) {
                 iterations = node.parent.iterations;
                 iterationsIndex = iterations.indexOf(this);
-                node.parent.iterations = iterations.slice(0, iterationsIndex)
+                node.parent.iterations = iterations.slice(0, iterationsIndex + 1)
                     .concat(this.iterations)
                     .concat(iterations.slice(iterationsIndex + 1));
                 node = node.parent;
@@ -125,7 +125,7 @@ exports.TreeNodeController = Montage.specialize({
             if (!node.parent) {
                 iterations = this._controller.iterations
                 iterationsIndex = iterations.indexOf(this);
-                this._controller.iterations = iterations.slice(0, iterationsIndex)
+                this._controller.iterations = iterations.slice(0, iterationsIndex + 1)
                     .concat(this.iterations)
                     .concat(iterations.slice(iterationsIndex + 1));
             }
