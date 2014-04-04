@@ -199,8 +199,8 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             this.super();
 
             this.childrenPath = childrenPath;
-            this.expandedPath = expandedPath;
             this.initiallyExpanded = initiallyExpanded;
+            this.expandedPath = expandedPath;
             this.content = content;
         }
     },
