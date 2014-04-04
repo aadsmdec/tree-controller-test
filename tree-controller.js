@@ -94,20 +94,7 @@ exports.TreeNodeController = Montage.specialize({
 
     _collapse: {
         value: function() {
-            var node = this;
-            var iterationsIndex = 0;
-            var iterationsCount = this.iterations.length;
-
-            while (node.parent && node.parent.expanded) {
-                iterationsIndex = node.parent.iterations.indexOf(this);
-                node.parent.iterations.splice(iterationsIndex + 1, iterationsCount);
-                node = node.parent;
-            }
-
-            if (!node.parent) {
-                iterationsIndex = this._controller.iterations.indexOf(this);
-                this._controller.iterations.splice(iterationsIndex + 1, iterationsCount);
-            }
+            this._removeIterationsFromParent(this.iterations.length, this);            
         }
     },
 
