@@ -49,7 +49,10 @@ exports.TreeNodeController = Montage.specialize({
         set: function(value) {
             if (value !== this._expanded) {
                 //this._expanded = value;
+                var startTime = window.performance.now();
                 var iterationsIndex = this._findIterationsIndex();
+                var currentTime = window.performance.now();
+                console.log("expanded", currentTime - startTime);
                 console.log("iterationsIndex", iterationsIndex);
             }
         }
