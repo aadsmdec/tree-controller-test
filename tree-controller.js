@@ -196,8 +196,6 @@ exports.TreeNodeController = Montage.specialize({
 exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
     constructor: {
         value: function TreeController(content, childrenPath, initiallyExpanded, expandedPath) {
-            var iterations;
-
             this.super();
 
             this.childrenPath = childrenPath;
