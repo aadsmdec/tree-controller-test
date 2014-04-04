@@ -93,7 +93,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
                 var ix = where.shift();
                 node = node.children[ix];
             }
-            
+            console.log(node.children);
             node.children.splice(where[0], 0, node);
         }
     },
