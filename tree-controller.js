@@ -32,17 +32,8 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
 
-    _content: {
-        value: null
-    },
-
     content: {
-        get: function() {
-            return this._content;
-        },
-        set: function(value) {
-            this._content = value;
-        }
+        value: null
     },
 
     _expanded: {
@@ -215,7 +206,9 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             this.initiallyExpanded = initiallyExpanded;
             this.root = new this.NodeController(this, null, content, 0);
 
-            iterations = this.root.iterations.slice(0);
+            if (this.root.expanded) {
+                iterations = this.root.iterations.slice(0);
+            }
             iterations.unshift(this.root);
             this.iterations = iterations;
         }
