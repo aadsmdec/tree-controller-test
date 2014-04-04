@@ -22,7 +22,7 @@ exports.TreeNodeController = Montage.specialize({
             
             this._childrenContent = this.getPath("content." + (controller.childrenPath||"children"));
             
-            if (this.depth && this.expanded) {
+            if (this.expanded) {
                 controller.iterations.splice(iterationsIndex, 0, this);
             }
             
