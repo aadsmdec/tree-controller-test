@@ -21,8 +21,8 @@ exports.TreeNodeController = Montage.specialize({
             }
             
             childrenPath = "content." + (controller.childrenPath||"children");
-            this.content = content;
             this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
+            this._content = content;
             childrenContent = this.getPath(childrenPath);
             
             this.children = childrenContent.map(function(content) {
@@ -36,6 +36,19 @@ exports.TreeNodeController = Montage.specialize({
             }, this);
             
             this.iterations = iterations;
+        }
+    },
+    
+    _content: {
+        value: null
+    },
+    
+    content: {
+        get: function() {
+            return this._content;
+        },
+        set: function(value) {
+            this._content = value;
         }
     },
     
