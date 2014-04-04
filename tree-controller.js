@@ -21,21 +21,23 @@ exports.TreeNodeController = Montage.specialize({
             }
             
             if (this.expanded) {
-                controller.iterations.splice(iterationsIndex, 0, this);
+                //controller.iterations.splice(iterationsIndex, 0, this);
             }
             
             childrenPath = "content." + (controller.childrenPath||"children");
-            this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
-            console.log("CONTENT");
             this.content = content;
+            //this.addRangeAtPathChangeListener(childrenPath, this, "handleChildrenContentChange");
             childrenContent = this.getPath(childrenPath);
             
             this.children = childrenContent.map(function(content) {
                 var child = new this.constructor(
                     controller, this, content, depth + 1,
                     controller.iterations.length);
+                
                 iterations.push(child);
-                iterations = iterations.concat(child.iterations);
+                if (child.expanded) {
+                    iterations = iterations.concat(child.iterations);
+                }
                 return child;
             }, this);
             
