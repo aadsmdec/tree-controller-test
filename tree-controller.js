@@ -147,10 +147,19 @@ exports.TreeNodeController = Montage.specialize({
                 if (this.parent.parent) {
                     this.parent._addIterationsToParent(iterations, parentIterations[parentIterationsIndex-1]);
                 } else {
-                    parentIterationsIndex = this._controller.iterations.indexOf(previousIteration) + 1;
-                    this._controller.iterations.swap(parentIterationsIndex, 0, iterations);
+                    this._addIterationsToController(iterations, parentIterations[parentIterationsIndex-1]);
                 }
             }
+        }
+    },
+    
+    _addIterationsToController: {
+        value: function(iterations, previousIteration) {
+            var controllerIterations = this._controller.iterations,
+                parentIterationsIndex;
+            
+            parentIterationsIndex = controllerIterations.indexOf(previousIteration) + 1;
+            controllerIterations.swap(parentIterationsIndex, 0, iterations);
         }
     },
 
