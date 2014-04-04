@@ -52,6 +52,10 @@ exports.TreeNodeController = Montage.specialize({
                 //this._expanded = value;
                 var startTime = window.performance.now();
                 var iterationsIndex = this._findIterationsIndex();
+                if (value) {
+                } else {
+                    this._collapse();
+                }
                 var currentTime = window.performance.now();
                 console.log("expanded", currentTime - startTime);
                 console.log("iterationsIndex", iterationsIndex);
@@ -84,13 +88,13 @@ exports.TreeNodeController = Montage.specialize({
             var iterationsCount = this.iterations.length;
 
             while (node.parent && node.parent.expanded) {
-                iterationsIndex = node.parent.iterations.indexOf(node);
+                iterationsIndex = node.parent.iterations.indexOf(this);
                 node.parent.iterations.splice(iterationsIndex + 1, iterationsCount);
                 node = node.parent;
             }
             
             if (!node.parent) {
-                iterationsIndex = this._controller.iterations.indexOf(node);
+                iterationsIndex = this._controller.iterations.indexOf(this);
                 this._controller.iterations.splice(iterationsIndex + 1, iterationsCount);
             }
         }
@@ -104,7 +108,7 @@ exports.TreeNodeController = Montage.specialize({
 
             while (node.parent && node.parent.expanded) {
                 iterations = node.parent.iterations;
-                iterationsIndex = iterations.indexOf(node);
+                iterationsIndex = iterations.indexOf(this);
                 node.parent.iterations = iterations.slice(0, iterationsIndex)
                     .concat(this.iterations)
                     .concat(iterations.slice(iterationsIndex + 1));
@@ -113,7 +117,7 @@ exports.TreeNodeController = Montage.specialize({
 
             if (!node.parent) {
                 iterations = this._controller.iterations
-                iterationsIndex = iterations.indexOf(node);
+                iterationsIndex = iterations.indexOf(this);
                 this._controller.iterations = iterations.slice(0, iterationsIndex)
                     .concat(this.iterations)
                     .concat(iterations.slice(iterationsIndex + 1));
