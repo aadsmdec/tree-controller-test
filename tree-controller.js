@@ -31,8 +31,7 @@ exports.TreeNodeController = Montage.specialize({
             
             this.children = childrenContent.map(function(content) {
                 var child = new this.constructor(
-                    controller, this, content, depth + 1,
-                    controller.iterations.length);
+                    controller, this, content, depth + 1);
                 
                 iterations.push(child);
                 if (child.expanded) {
