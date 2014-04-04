@@ -69,6 +69,9 @@ exports.Main = Component.specialize(/** @lends Main# */ {
                 this._addToController(this.templateObjects.tree.treeController,
                                       rootNode,
                                       JSON.parse(this.templateObjects.referenceNode.value));
+            } else if (this.templateObjects.removeFromController.checked) {
+                this._removeFromController(this.templateObjects.tree.treeController,
+                                      JSON.parse(this.templateObjects.referenceNode.value));
             } else {
                 treeController = new Controller(rootNode, "children", initiallyExpanded);
 
@@ -95,6 +98,20 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             }
             console.log("parentNode: ", parentNode);
             parentNode.children.splice(where[0], 0, node);
+        }
+    },
+    
+    _removeFromController: {
+        value: function(controller, where) {
+            var content = controller.content,
+                parentNode = content;
+
+            while (where.length > 1) {
+                var ix = where.shift();
+                parentNode = parentNode.children[ix];
+            }
+            console.log("parentNode: ", parentNode);
+            parentNode.children.splice(where[0], 1);
         }
     },
     
