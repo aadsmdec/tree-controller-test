@@ -12,11 +12,18 @@ exports.Tree = Component.specialize(/** @lends Tree# */ {
     constructor: {
         value: function Tree() {
             this.super();
+            this.addPathChangeListener("treeController.selection.0", this, "handleSelectionChange");
         }
     },
     
     treeController: {
         value: null
+    },
+    
+    handleSelectionChange: {
+        value: function(value) {
+            console.log(value);
+        }
     }
 });
 
