@@ -4,6 +4,7 @@
  */
 var Component = require("montage/ui/component").Component;
 var TreeController = require("montage/core/tree-controller").TreeController;
+var NewTreeController = require("./tree-controller").TreeController;
 
 /**
  * @class Main
@@ -54,10 +55,17 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             console.log("runTest", treeShape);
             var startTime, currentTime;
             var rootNode = this.createDataTreeNode(treeShape);
+            var Controller;
+            
+            if (this.templateObjects.useNewTreeController.checked) {
+                Controller = NewTreeController;
+            } else {
+                Controller = TreeController;
+            }
 
             startTime = window.performance.now();
             
-            treeController = new TreeController(rootNode, "children", initiallyExpanded);
+            treeController = new Controller(rootNode, "children", initiallyExpanded);
             
             currentTime = window.performance.now();
             console.log("new TreeController()", rootNode, currentTime - startTime);
