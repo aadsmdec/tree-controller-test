@@ -10,22 +10,6 @@
                 "element": {"#": "owner"}
             }
         },
-        
-        "repetition": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "repetition"},
-                "contentController": {"@": "rangeController"}
-            }
-        },
-
-        "rangeController": {
-            "prototype": "montage/core/range-controller",
-            "bindings": {
-                "content": {"<-": "@owner.treeController.iterations"}
-            }
-        },
-
         "indent": {
             "prototype": "tree.reel[Indent]",
             "properties": {
@@ -33,6 +17,29 @@
             },
             "bindings": {
                 "iteration": {"<-": "@list:iteration.object"}
+            }
+        },
+        "rangeController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.treeController.iterations"}
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "contentController": {"@": "rangeController"}
+            }
+        },
+        "treeNode": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "treeNode"},
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<-": "@repetition:iteration.object.name"}
             }
         }
     }
