@@ -7,7 +7,7 @@ var Montage = require("montage/core/core").Montage;
 exports.TreeNodeController = Montage.specialize({
     constructor: {
         value: function(controller, parent, content, depth, iterationsIndex) {
-            var iterations = [this];
+            var iterations = [];
             
             this._controller = controller;
             this.parent = parent;
@@ -30,6 +30,7 @@ exports.TreeNodeController = Montage.specialize({
                 var child = new this.constructor(
                     controller, this, content, depth + 1,
                     controller.iterations.length);
+                iterations.push(child);
                 iterations = iterations.concat(child.iterations);
                 return child;
             }, this);
@@ -64,7 +65,7 @@ exports.TreeNodeController = Montage.specialize({
             var iterationsIndex = 0;
             
             while (node.parent && node.parent.expanded) {
-                iterationsIndex += node.parent.iterations.indexOf(node);
+                iterationsIndex += node.parent.iterations.indexOf(node) + 1;
                 node = node.parent;
             }
             
@@ -72,6 +73,51 @@ exports.TreeNodeController = Montage.specialize({
                 return -1;
             } else {
                 return iterationsIndex;
+            }
+        }
+    },
+    
+    _collapse: {
+        value: function() {
+            var node = this;
+            var iterationsIndex = 0;
+            var iterationsCount = this.iterations.length;
+
+            while (node.parent && node.parent.expanded) {
+                iterationsIndex = node.parent.iterations.indexOf(node);
+                node.parent.iterations.splice(iterationsIndex + 1, iterationsCount);
+                node = node.parent;
+            }
+            
+            if (!node.parent) {
+                iterationsIndex = this._controller.iterations.indexOf(node);
+                this._controller.iterations.splice(iterationsIndex, iterationsCount);
+            }
+        }
+    },
+    
+    _expand: {
+        value: function() {
+            var node = this;
+            var iterationsIndex = 0;
+            var iterationsCount = this.iterations.length;
+            var iterations;
+
+            while (node.parent && node.parent.expanded) {
+                iterations = node.parent.iterations;
+                iterationsIndex = iterations.indexOf(node);
+                node.parent.iterations = iterations.slice(0, iterationsIndex)
+                    .concat(this.iterations)
+                    .concat(iterations.slice(iterationsIndex + 1);
+                node = node.parent;
+            }
+
+            if (!node.parent) {
+                iterations = this._controller.iterations
+                iterationsIndex = iterations.indexOf(node);
+                this._controller.iterations = iterations.slice(0, iterationsIndex)
+                    .concat(this.iterations)
+                    .concat(iterations.slice(iterationsIndex + 1);
             }
         }
     }
