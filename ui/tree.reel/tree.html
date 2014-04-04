@@ -9,12 +9,42 @@
             "properties": {
                 "element": {"#": "owner"}
             }
-        }
+        },
+        
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "contentController": {"@": "rangeController"}
+            }
+        },
+
+        "rangeController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.treeController.iterations"}
+            }
+        },
+
+        "indent": {
+            "prototype": "tree.reel[Indent]",
+            "properties": {
+                "element": {"#": "indent"}
+            },
+            "bindings": {
+                "iteration": {"<-": "@list:iteration.object"}
+            }
+        },
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Tree">
+        <div data-montage-id="repetition" class="Tree-list">
+            <div data-montage-id="indent" class="Tree-list-row">
+                <div data-montage-id="treeNode"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
