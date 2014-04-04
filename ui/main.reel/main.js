@@ -41,9 +41,13 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             var rootNode = this.createDataTreeNode(treeShape);
 
             var startTime = window.performance.now();
-            new TreeController(rootNode, "children", initiallyExpanded);
+            treeController = new TreeController(rootNode, "children", initiallyExpanded);
             var currentTime = window.performance.now();
             console.log("new TreeController()", rootNode, currentTime - startTime);
+            startTime = currentTime;
+            this.templateObjects.tree.treeController = treeController;
+            var currentTime = window.performance.now();
+            console.log("tree.treeController", currentTime - startTime);
         }
     },
     
