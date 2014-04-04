@@ -30,7 +30,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
             }
             
             return {
-                name: this.generateName();
+                name: this.generateName(),
                 children: children
             };
         }
