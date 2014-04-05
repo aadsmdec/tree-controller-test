@@ -372,16 +372,17 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             var allExpanded, noneExpanded;
             
             if (this.iterations) {
-                allExpanded = this.iterations.length === this._nodeCount;
-                if (allExpanded !== this._allExpanded) {
-                    this._allExpanded = allExpanded;
-                    this.dispatchOwnPropertyChange("allExpanded", allExpanded);
-                }
+                this._changeOwnProperty("allExpanded", this.iterations.length === this._nodeCount);
             }
-            noneExpanded = this._noneExpanded === 0;
-            if (noneExpanded !== this._allExpanded) {
-                this._noneExpanded = noneExpanded;
-                this.dispatchOwnPropertyChange("noneExpanded", noneExpanded);
+            this._changeOwnProperty("noneExpanded", this._noneExpanded === 0);
+        }
+    },
+    
+    _changeOwnProperty: {
+        value: function(propertyName, value) {
+            if (value !== this[propertyName]) {
+                this[propertyName] = value;
+                this.dispatchOwnPropertyChange(propertyName, value);
             }
         }
     },
