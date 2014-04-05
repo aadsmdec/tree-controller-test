@@ -76,7 +76,7 @@ exports.Main = Component.specialize(/** @lends Main# */ {
                 treeController = new Controller(rootNode, "children", initiallyExpanded);
 
                 currentTime = window.performance.now();
-                this.templateObjects.time.value = currentTime - startTime;
+                this.templateObjects.time.value = Math.round((currentTime - startTime) * 100) / 100;
                 startTime = currentTime;
 
                 this.templateObjects.tree.treeController = treeController;
