@@ -347,9 +347,11 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         },
         set: function(value) {
             if (value !== this._allExpanded) {
-                this.preOrderWalk(function(node) {
-                    node.expanded = true;
-                });
+                if (value) {
+                    this.preOrderWalk(function(node) {
+                        node.expanded = true;
+                    });
+                }
                 this._allExpanded = value;
             }
         }
@@ -366,14 +368,14 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         set: function(value) {
             if (value !== this._noneExpanded) {
                 if (value) {
+                    // Have to do it 
                     this.preOrderWalk(function(node) {
-                        if (node.expanded) {
-                            node._expanded = false;
-                        }
+                        node._expanded = false;
                         node.iterations = node.children.slice(0);
                     });
                     this._expandedNodeCount = 0;
                     this.iterations.splice(1, this.iterations.length - 1);
+                    this.handleIterationsChange();
                 }
                 this._noneExpanded = value;
             }
