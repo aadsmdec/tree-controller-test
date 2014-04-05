@@ -368,7 +368,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         set: function(value) {
             if (value !== this._noneExpanded) {
                 if (value) {
-                    // Have to do it 
+                    // Have to do it manually otherwise it's slow.
                     this.preOrderWalk(function(node) {
                         node._expanded = false;
                         node.iterations = node.children.slice(0);
