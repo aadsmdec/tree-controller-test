@@ -291,15 +291,13 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
     handleIterationsChange: {
         value: function() {
             if (this.iterations) {
-                console.log(this.iterations.length, this._nodeCount);
                 if (this.iterations.length === this._nodeCount) {
                     this.allExpanded = true;
                 } else {
                     this.allExpanded = false;
                 }
-                console.log(this._expandedNodeCount);
-                this.noneExpanded = this._expandedNodeCount === 0;
             }
+            this.noneExpanded = this._expandedNodeCount === 0;
         }
     },
     
