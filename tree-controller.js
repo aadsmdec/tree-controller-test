@@ -365,9 +365,16 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         },
         set: function(value) {
             if (value !== this._noneExpanded) {
-                this.preOrderWalk(function(node) {
-                    node.expanded = false;
-                });
+                if (value) {
+                    this.preOrderWalk(function(node) {
+                        if (node.expanded) {
+                            node._expanded = false;
+                        }
+                        node.iterations.clear();
+                    });
+                    this._expandedNodeCount = 0;
+                    this.iterations.splice(1, this.iterations.length - 1);
+                }
                 this._noneExpanded = value;
             }
         }
