@@ -376,7 +376,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
     _changeOwnProperty: {
         value: function(propertyName, value) {
             if (value !== this[propertyName]) {
-                this[propertyName] = value;
+                this["_"+propertyName] = value;
                 this.dispatchOwnPropertyChange(propertyName, value);
             }
         }
