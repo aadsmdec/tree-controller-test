@@ -278,7 +278,6 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                     this.root.destroy();
                     this.root = null;
                     this.iterations = null;
-                    this._nodeCount = 0;
                 }
                 this._content = value;
                 this.handleIterationsChange();
