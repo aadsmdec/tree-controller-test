@@ -337,16 +337,52 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         }
     },
     
+    _allExpanded: {
+        value: null
+    },
+    
+    allExpanded: {
+        get: function() {
+            return this._allExpanded;
+        },
+        set: function(value) {
+            if (value !== this._allExpanded) {
+                this._allExpanded = value;
+            }
+        }
+    },
+    
+    _noneExpanded: {
+        value: null
+    },
+
+    noneExpanded: {
+        get: function() {
+            return this._noneExpanded;
+        },
+        set: function(value) {
+            if (value !== this._noneExpanded) {
+                this._noneExpanded = value;
+            }
+        }
+    },
+    
     handleIterationsChange: {
         value: function() {
+            var allExpanded, noneExpanded;
+            
             if (this.iterations) {
-                if (this.iterations.length === this._nodeCount) {
-                    this.allExpanded = true;
-                } else {
-                    this.allExpanded = false;
+                allExpanded = this.iterations.length === this._nodeCount;
+                if (allExpanded !== this._allExpanded) {
+                    this._allExpanded = allExpanded;
+                    this.dispatchOwnPropertyChange("allExpanded", allExpanded);
                 }
             }
-            this.noneExpanded = this._expandedNodeCount === 0;
+            noneExpanded = this._noneExpanded === 0;
+            if (noneExpanded !== this._allExpanded) {
+                this._noneExpanded = noneExpanded;
+                this.dispatchOwnPropertyChange("noneExpanded", noneExpanded);
+            }
         }
     },
     
