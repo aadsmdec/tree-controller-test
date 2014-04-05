@@ -78,6 +78,9 @@ exports.TreeNodeController = Montage.specialize({
     _destroy: {
         value: function() {
             this._controller._nodeCount--;
+            if (this.expanded) {
+                this._controller._expandedNodeCount--;
+            }
             this._controller = null;
             this.parent = null;
             this._cancelChildrenContentChangeListener();
@@ -92,12 +95,14 @@ exports.TreeNodeController = Montage.specialize({
     
     _collapse: {
         value: function() {
+            this._controller._expandedNodeCount--;
             this._removeIterationsFromParent(this.iterations.length, this);            
         }
     },
 
     _expand: {
         value: function() {
+            this._controller._expandedNodeCount++;
             this._addIterationsToParent(this.iterations, this);
         }
     },
