@@ -163,6 +163,55 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
 
+    /**
+     * Finds and return the node having the given content.
+     * Takes an optional second argument to specify the compare function to use.
+     * note: If you are doing find operations frequently, it might be better to attach
+     * a binding that will facilitate incremental updates and O(1) lookups.
+     * `nodeForContent <- nodes{[content, this]}.toMap()`
+     */
+    findNodeByContent: {
+        value: function (content, equals) {
+            equals = equals || Object.is;
+            if (equals(this.content, content)) {
+                return this;
+            }
+            var node;
+            for (var i = 0; i < this.children.length; i++) {
+                if (node = this.children[i].findNodeByContent(content, equals)) {
+                    break;
+                }
+            }
+            return node;
+        }
+    },
+    
+    /**
+     * Performs a traversal of the tree, executes the callback function for each node.
+     * The callback is called before continuing the walk on its children.
+     */
+    preOrderWalk: {
+        value: function (callback) {
+            callback(this);
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].preOrderWalk(callback);
+            }
+        }
+    },
+
+    /**
+     * Performs a traversal of the tree, executes the callback function for each node.
+     * The callback is called after continuing the walk on its children.
+     */
+    postOrderWalk: {
+        value: function (callback) {
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].postOrderWalk(callback);
+            }
+            callback(this);
+        }
+    },
+    
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
             var children = this.children,
