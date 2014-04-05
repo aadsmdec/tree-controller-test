@@ -271,7 +271,6 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             if (value !== this._content) {
                 if (value) {
                     this.root = new this.NodeController(this, null, value, 0);
-                    this._nodeCount++;
 
                     var iterations = [this.root];
                     if (this.root.expanded) {
