@@ -1,0 +1,42 @@
+{
+  "blueprint_component_reference": {
+    "prototype": "montage/core/meta/blueprint-reference",
+    "properties": {
+      "valueReference": {
+        "blueprintName": "Component",
+        "blueprintModule": {
+          "%": "montage/ui/component.meta"
+        }
+      }
+    }
+  },
+  "blueprint_unnamed_treeController": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "treeController",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "montage/core/meta/module-blueprint",
+    "properties": {
+      "name": null,
+      "blueprintModule": {
+        "%": "ui/tree.reel/tree.meta"
+      },
+      "parent": {"@": "blueprint_component_reference"},
+      "propertyBlueprints": [
+        {"@": "blueprint_unnamed_treeController"}
+      ],
+      "propertyBlueprintGroups": {
+        "Tree": [
+          {"@": "blueprint_unnamed_treeController"}
+        ]
+      },
+      "module": {
+        "%": "ui/tree.reel"
+      },
+      "exportName": "Tree"
+    }
+  }
+}
