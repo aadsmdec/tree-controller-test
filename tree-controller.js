@@ -295,6 +295,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                 } else {
                     this.allExpanded = false;
                 }
+                this.noneExpanded = this._expandedNodeCount === 0;
             }
         }
     },
