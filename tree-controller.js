@@ -25,7 +25,7 @@ exports.TreeNodeController = Montage.specialize({
             if (this._expanded) {
                 controller._expandedNodeCount++;
             }
-            
+
             childrenPath = "content." + (controller.childrenPath||"children");
             this.content = content;
             this._ignoreChildrenContentChange = true;
@@ -34,7 +34,12 @@ exports.TreeNodeController = Montage.specialize({
             this._ignoreChildrenContentChange = false;
             childrenContent = this.getPath(childrenPath);
 
-            this.children = this._createChildren(childrenContent, iterations);
+            if (childrenContent) {
+                this.children = this._createChildren(childrenContent, iterations);
+            } else {
+                this.children = [];
+            }
+
             this.iterations = iterations;
         }
     },
@@ -79,7 +84,7 @@ exports.TreeNodeController = Montage.specialize({
             }, this);
         }
     },
-    
+
     _destroy: {
         value: function() {
             this._controller._nodeCount--;
@@ -97,11 +102,11 @@ exports.TreeNodeController = Montage.specialize({
             this.children = null;
         }
     },
-    
+
     _collapse: {
         value: function() {
             this._controller._expandedNodeCount--;
-            this._removeIterationsFromParent(this.iterations.length, this);            
+            this._removeIterationsFromParent(this.iterations.length, this);
         }
     },
 
@@ -111,12 +116,12 @@ exports.TreeNodeController = Montage.specialize({
             this._addIterationsToParent(this.iterations, this);
         }
     },
-    
+
     _addIterationsToParent: {
         value: function(iterations, previousIteration) {
             var parentIterations,
                 parentIterationsIndex;
-            
+
             if (!this.parent) {
                 this._addIterationsToController(iterations, previousIteration);
             } else if (this.parent.expanded) {
@@ -127,7 +132,7 @@ exports.TreeNodeController = Montage.specialize({
             }
         }
     },
-    
+
     _removeIterationsFromParent: {
         value: function(iterationsCount, previousIteration) {
             var parentIterations,
@@ -143,17 +148,17 @@ exports.TreeNodeController = Montage.specialize({
             }
         }
     },
-    
+
     _addIterationsToController: {
         value: function(iterations, previousIteration) {
             var controllerIterations = this._controller.iterations,
                 parentIterationsIndex;
-            
+
             parentIterationsIndex = controllerIterations.indexOf(previousIteration) + 1;
             controllerIterations.swap(parentIterationsIndex, 0, iterations);
         }
     },
-    
+
     _removeIterationsFromController: {
         value: function(iterationsCount, previousIteration) {
             var controllerIterations = this._controller.iterations,
@@ -186,7 +191,7 @@ exports.TreeNodeController = Montage.specialize({
             return node;
         }
     },
-    
+
     /**
      * Performs a traversal of the tree, executes the callback function for each node.
      * The callback is called before continuing the walk on its children.
@@ -212,17 +217,17 @@ exports.TreeNodeController = Montage.specialize({
             callback(this);
         }
     },
-    
+
     _updateChildrenIndexes: {
         value: function(index) {
             var children = this.children;
-            
+
             for (var i = index; i < children.length; i++) {
                 children[i].index = i;
             }
         }
     },
-    
+
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
             var children = this.children,
@@ -235,24 +240,24 @@ exports.TreeNodeController = Montage.specialize({
                 newChildren,
                 removedChildren,
                 newIterations;
-            
+
             if (this._ignoreChildrenContentChange) {
                 return;
             }
-            
-            if (minus.length > 0) {    
+
+            if (minus.length > 0) {
                 child = children[index];
                 iterationsIndex = iterations.indexOf(child);
                 nextChild = children[index + minus.length];
                 nextIterationsIndex = iterations.indexOf(nextChild);
-                
+
                 if (iterationsIndex < 0) {
                     iterationsIndex = 0;
                 }
                 if (nextIterationsIndex < 0) {
                     nextIterationsIndex = iterations.length;
                 }
-                
+
                 iterationsCount = nextIterationsIndex - iterationsIndex;
                 removedChildren = this.children.splice(index, minus.length);
                 this._updateChildrenIndexes(index);
@@ -262,15 +267,15 @@ exports.TreeNodeController = Montage.specialize({
                     removedChildren[i]._destroy();
                 }
             }
-            
+
             if (plus.length > 0) {
                 nextChild = children[index];
                 newIterations = [];
-                
+
                 newChildren = this._createChildren(plus, newIterations);
                 this.children.swap(index, 0, newChildren);
                 this._updateChildrenIndexes(index + plus.length);
-                
+
                 if (nextChild) {
                     iterationsIndex = iterations.indexOf(nextChild);
                 } else {
@@ -279,7 +284,7 @@ exports.TreeNodeController = Montage.specialize({
                 this.iterations.swap(iterationsIndex, 0, newIterations);
                 this._addIterationsToParent(newIterations, iterations[iterationsIndex-1] || this);
             }
-            
+
             this._controller.handleIterationsChange();
         }
     }
@@ -316,15 +321,15 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
     _nodeCount: {
         value: 0
     },
-    
+
     _expandedNodeCount: {
         value: 0
     },
-    
+
     _content: {
         value: null
     },
-    
+
     content: {
         get: function() {
             return this._content;
@@ -338,9 +343,9 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                     if (this.root.expanded) {
                         iterations.swap(1, 0, this.root.iterations);
                     }
-                    this.iterations = iterations;                    
-                } else {
-                    this.root.destroy();
+                    this.iterations = iterations;
+                } else if (this.root) {
+                    this.root._destroy();
                     this.root = null;
                     this.iterations = null;
                 }
@@ -349,11 +354,11 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             }
         }
     },
-    
+
     _allExpanded: {
         value: null
     },
-    
+
     allExpanded: {
         get: function() {
             return this._allExpanded;
@@ -369,7 +374,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             }
         }
     },
-    
+
     _noneExpanded: {
         value: null
     },
@@ -381,7 +386,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
         set: function(value) {
             if (value !== this._noneExpanded) {
                 if (value) {
-                    // Have to do it manually otherwise it's slow.
+                    // Have to do it manually otherwise it's too slow.
                     this.preOrderWalk(function(node) {
                         node._expanded = false;
                         node.iterations = node.children.slice(0);
@@ -394,7 +399,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             }
         }
     },
-    
+
     _changeOwnProperty: {
         value: function(propertyName, value) {
             if (value !== this[propertyName]) {
@@ -403,22 +408,22 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
             }
         }
     },
-    
+
     handleIterationsChange: {
         value: function() {
             var allExpanded, noneExpanded;
-            
+
             if (this.iterations) {
                 this._changeOwnProperty("allExpanded", this.iterations.length === this._nodeCount);
             }
-            this._changeOwnProperty("noneExpanded", this._noneExpanded === 0);
+            this._changeOwnProperty("noneExpanded", this._expandedNodeCount === 0);
         }
     },
-    
+
     NodeController: {
         value: exports.TreeNodeController
     },
-    
+
     /**
      * Finds and returns the node having the given content.
      * Takes an optional second argument to specify the compare function to use.
