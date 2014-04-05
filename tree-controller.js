@@ -370,7 +370,7 @@ exports.TreeController = Montage.specialize(/** @lends TreeController# */ {
                         if (node.expanded) {
                             node._expanded = false;
                         }
-                        node.iterations.clear();
+                        node.iterations = this.children.slice(0);
                     });
                     this._expandedNodeCount = 0;
                     this.iterations.splice(1, this.iterations.length - 1);
