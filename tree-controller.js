@@ -213,6 +213,16 @@ exports.TreeNodeController = Montage.specialize({
         }
     },
     
+    _updateChildrenIndexes: {
+        value: function(index) {
+            var children = this.children;
+            
+            for (var i = index; i < children.length; i++) {
+                children[i].index = i;
+            }
+        }
+    },
+    
     handleChildrenContentChange: {
         value: function(plus, minus, index) {
             var children = this.children,
@@ -245,6 +255,7 @@ exports.TreeNodeController = Montage.specialize({
                 
                 iterationsCount = nextIterationsIndex - iterationsIndex;
                 removedChildren = this.children.splice(index, minus.length);
+                this._updateChildrenIndexes(index);
                 iterations.splice(iterationsIndex, iterationsCount);
                 this._removeIterationsFromParent(iterationsCount, iterations[iterationsIndex - 1] || this);
                 for (var i = 0; i < removedChildren.length; i++) {
@@ -258,6 +269,7 @@ exports.TreeNodeController = Montage.specialize({
                 
                 newChildren = this._createChildren(plus, newIterations);
                 this.children.swap(index, 0, newChildren);
+                this._updateChildrenIndexes(index + plus.length);
                 
                 if (nextChild) {
                     iterationsIndex = iterations.indexOf(nextChild);
